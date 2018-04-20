@@ -1,7 +1,14 @@
 # Classification of Satellite images
 
 ## Classification of Satellite images :rocket: using VGG-Net and [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) for Training the network
+### Resultat After Trainning: 
 
+![afterTrain](images/afterTrain.png 'afterTrain')
+![graph](images/graph.png 'graph')
+
+### Resultat of testing a Picture: 
+
+![testing](images/testing.png 'testing')
 ### Instalation :
 
 * install [tensorflow 1.6](https://github.com/SakhriHoussem/How-to-install-tensorflow-gpu)
