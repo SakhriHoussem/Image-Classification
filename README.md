@@ -4,6 +4,7 @@
 ### Resultat After Trainning: 
 
 ![afterTrain](images/afterTrain.png 'afterTrain')
+### `cost` and `accuracy` of training: 
 ![graph](images/graph.png 'graph')
 
 ### Resultat of testing a Picture: 
@@ -23,7 +24,7 @@ pip install matplotlib
 ```python
  pip install opencv-python
  ```
-### How To use for different DataSets or Different Classification :
+### How To Train Model for different DataSets or Different Classification :
 
 * Choose your images DataSet for Training
 
@@ -44,10 +45,9 @@ dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80)
 labels = np.load("dataSet_name_labelsTrain.npy")
 ```     
 
- 2. get classes
+ 2. get classes name
  ```python
- classes = np.load("dataSet_name_classes.npy")
-
+ classes = np.load("dataSet_name_classes.npy")  # get classes name for file.txt
  ```
  or if you used `saveClasses(path,save_to,mode = 'w')` for generate Classes `dataSet_name_classes.txt`
  
@@ -96,7 +96,8 @@ self.fc8 = self.fc_layer(self.relu7, 4096, 21, "fc8") # change 21 to the number 
 workers = ['PC1','PC2']
 pss = ['PC3']
  ```
- ### to Plot Graph of `cost` and `accuracy` :
+ 
+#### to Plot Graph of `cost` and `accuracy` :
  
 from [dataSetGenerator](dataSetGenerator.py) use `plotFiles()`
 
@@ -105,3 +106,23 @@ plotFiles(*path, xlabel='# epochs', ylabel='Error and Accu',autoClose = False)
 ```
 ![graph](images/graph.png 'graph')
 
+### Test the Model
+
+in [test_vgg19](test_vgg19.py) or [test_vgg16](test_vgg16.py) :
+```python
+batch = imread(path) # read One or lot of picture
+```
+get Classes name
+
+ ```python
+ classes = np.load("dataSet_name_classes.npy")  # get classes name for file.npy
+ ```
+or 
+```python
+classes = loadClasses("dataSet_name_classes.txt") # get classes name for file.txt
+```
+#### Show picture With Testing Model Result 
+```python
+picShow(data,labels,classes,just=None,predict=None,autoClose = False)
+```
+![afterTrain](images/afterTrain.png 'afterTrain')
