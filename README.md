@@ -96,5 +96,11 @@ self.fc8 = self.fc_layer(self.relu7, 4096, 21, "fc8") # change 21 to the number 
 workers = ['PC1','PC2']
 pss = ['PC3']
  ```
+ ### to Plot Graph of `cost` and `accuracy` :
  
- 
+in [dataSetGenerator](dataSetGenerator.py) use `plotFiles()`
+
+```python
+plotFiles(*path, xlabel='# epochs', ylabel='Error and Accu',autoClose = False)
+```
+
