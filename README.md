@@ -27,7 +27,7 @@ pip install matplotlib
 
 * Choose your images DataSet for Training
 
-* use [dataSetGenerator](dataSetGenerator.py) to Convert Your DataSet to `file.npy` for Dataset Fast Reading   
+* from [dataSetGenerator](dataSetGenerator.py) use `dataSetToNPY()` to Convert Your DataSet to `file.npy` for Dataset Fast Reading   
  
  ```python
 dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80) 
@@ -98,9 +98,10 @@ pss = ['PC3']
  ```
  ### to Plot Graph of `cost` and `accuracy` :
  
-in [dataSetGenerator](dataSetGenerator.py) use `plotFiles()`
+from [dataSetGenerator](dataSetGenerator.py) use `plotFiles()`
 
 ```python
 plotFiles(*path, xlabel='# epochs', ylabel='Error and Accu',autoClose = False)
 ```
+![graph](images/graph.png 'graph')
 
