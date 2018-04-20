@@ -1,13 +1,13 @@
 # Classification of Satellite images
 
 ## Classification of Satellite images :rocket: using VGG-Net and [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) for Training the network
-### Resultat After Trainning: 
+### Resultat After Trainning : 
 
 ![afterTrain](images/afterTrain.png 'afterTrain')
-### `cost` and `accuracy` of training: 
+### `cost` and `accuracy` of training : 
 ![graph](images/graph.png 'graph')
 
-### Resultat of testing a Picture: 
+### Resultat of testing a Picture : 
 
 ![testing](images/testing.png 'testing')
 ### Instalation :
@@ -106,7 +106,7 @@ plotFiles(*path, xlabel='# epochs', ylabel='Error and Accu',autoClose = False)
 ```
 ![graph](images/graph.png 'graph')
 
-### Test the Model
+### Test the Model :
 
 in [test_vgg19](test_vgg19.py) or [test_vgg16](test_vgg16.py) :
 ```python
@@ -121,7 +121,7 @@ or
 ```python
 classes = loadClasses("dataSet_name_classes.txt") # get classes name for file.txt
 ```
-#### Show picture With Testing Model Result 
+#### Show pictures : 
 ```python
 picShow(data,labels,classes,just=None,predict=None,autoClose = False)
 ```
