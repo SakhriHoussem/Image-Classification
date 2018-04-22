@@ -1,7 +1,6 @@
 # Classification of Satellite images
 
 ## Classification of Satellite images :rocket: using VGG-Net and [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) for Training
-- - - -
 ## Results :
 ### After Training : 
 Resultat of the Model After Training
@@ -14,9 +13,9 @@ Testing the classification of one batch of Pictures from [UC Merced Land Use Dat
 graph represent the values of both of `cost` and `accuracy` after training 
 ![graph](images/graph.png 'graph')
 
-#### Afer Test: 
- Resultat after testing a Picture From different source     
- **ex : [Google Map](maps.google.com)**
+#### After Test: 
+ Resultat after testing a Picture From different source [Google Map](maps.google.com)
+ 
 ![testing](images/testing.png 'testing')
 - - - -
 ## How To use :
