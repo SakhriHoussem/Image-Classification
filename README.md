@@ -1,15 +1,24 @@
 # Classification of Satellite images
 
 ## Classification of Satellite images :rocket: using VGG-Net and [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) for Training
+- - - -
+## Results :
 ### After Training : 
-Resultat of the Model After Training of testing the classification one batch of Pictures [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) for Training the network
-![afterTrain](images/afterTrain.png 'afterTrain')
-#### `cost` and `accuracy` of training : 
+Resultat of the Model After Training
+
+Testing the classification of one batch of Pictures from [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) 
+
+![afterTrain](images/afterTrain.png ' classification of batch of pictre after Training')
+
+#### `Cost` and `Accuracy` : 
+graph represent the values of both of `cost` and `accuracy` after training 
 ![graph](images/graph.png 'graph')
 
-#### Test a Picture : 
- Resultat after testing a Picture From Diffrent source **ex : [Google Map](maps.google.com)**
+#### Afer Test: 
+ Resultat after testing a Picture From different source     
+ **ex : [Google Map](maps.google.com)**
 ![testing](images/testing.png 'testing')
+- - - -
 ## How To use :
 
 ### Instalation :
@@ -42,7 +51,7 @@ dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80)
    
 4. in [train_vgg19](train_vgg19.py) or [train_vgg16](train_vgg16.py)     
    
-   1. Get batch of images and Labels for training 
+    1. Get batch of images and Labels for training 
  ```python
  batch = np.load("dataSet_name_dataTrain.npy")
 labels = np.load("dataSet_name_labelsTrain.npy")
@@ -62,7 +71,7 @@ classes = loadClasses("dataSet_name_classes.txt")
  vgg = vgg19.Vgg19('Weights.npy')
  ```
  
-   4. change `epochs` and `batch size` [optionnel]
+   4. change `epochs` and `batch size` [optional] 
 ```python
 batch_size = 10
 epochs = 30
@@ -85,7 +94,7 @@ vgg.save_npy(sess, 'Weights/VGG19_21C.npy')
 ```python
 self.fc8 = self.fc_layer(self.relu7, 4096, 21, "fc8") # change 21 to the number of classes you need
 ```
-### For Distributed Tensorflow :
+### For Distributed Tensorflow [optional] : 
 
 1. Download and install [nmap](https://nmap.org/)
  
