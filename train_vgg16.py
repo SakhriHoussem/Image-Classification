@@ -25,7 +25,7 @@ with tf.device('/cpu:0'):
         true_out = tf.placeholder(tf.float32, [None, len(classes)])
         train_mode = tf.placeholder(tf.bool)
 
-        vgg = vgg16.Vgg16('Weights/VGG16_21C.npy')
+        vgg = vgg16.Vgg16('Weights/VGG16_21C.npy',21)
         vgg.build(images,train_mode)
 
         # print number of variables used: 143667240 variables, i.e. ideal size = 548MB

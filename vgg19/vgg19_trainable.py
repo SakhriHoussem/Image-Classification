@@ -10,7 +10,7 @@ class Vgg19:
     A trainable version VGG19.
     """
 
-    def __init__(self, vgg19_npy_path=None, trainable=True, dropout=0.5):
+    def __init__(self, vgg19_npy_path=None,output = 1000, trainable=True, dropout=0.5):
         if vgg19_npy_path is not None:
             self.data_dict = np.load(vgg19_npy_path, encoding='latin1').item()
         else:
@@ -19,6 +19,7 @@ class Vgg19:
         self.var_dict = {}
         self.trainable = trainable
         self.dropout = dropout
+        self.output = output
 
     def build(self, rgb, train_mode=None):
         """
@@ -82,7 +83,7 @@ class Vgg19:
         elif self.trainable:
             self.relu7 = tf.nn.dropout(self.relu7, self.dropout)
 
-        self.fc8 = self.fc_layer(self.relu7, 4096, 21, "fc8")
+        self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
 
