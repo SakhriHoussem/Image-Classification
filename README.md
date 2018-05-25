@@ -42,7 +42,7 @@ To Train Model for different DataSets or Different Classification follow the ste
 2. from [dataSetGenerator](dataSetGenerator.py) use `dataSetToNPY()` to Convert Your DataSet to `file.npy` for Dataset Fast Reading   
  
  ```python
-dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80) 
+dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80,dataAugmentation= False) 
  ```
 3. the Output of `dataSetToNPY()` :      
 `dataSet_name_dataTrain.npy` `dataSet_name_labelsTrain.npy`
@@ -65,9 +65,9 @@ labels = np.load("dataSet_name_labelsTrain.npy")
 ```python
 classes = loadClasses("dataSet_name_classes.txt")
 ``` 
-   3. set `Weights.npy` if exist 
+   3. set `Weights.npy` and `output_num` if exist 
  ```python
- vgg = vgg19.Vgg19('Weights.npy')
+ vgg = vgg19.Vgg19('Weights.npy',output_num)
  ```
  
    4. change `epochs` and `batch size` [optional] 
@@ -89,10 +89,6 @@ with open('Data/acc.txt', 'a') as f:
 vgg.save_npy(sess, 'Weights/VGG19_21C.npy')
 ```
 
-5. Change the number of Output Classes in [vgg19](vgg19/vgg19_trainable.py) or  [vgg16](vgg16/vgg16_trainable.py)
-```python
-self.fc8 = self.fc_layer(self.relu7, 4096, 21, "fc8") # change 21 to the number of classes you need
-```
 ### For Distributed Tensorflow [optional] : 
 
 1. Download and install [nmap](https://nmap.org/)
@@ -139,3 +135,9 @@ to Show one or batch of Pictures
 picShow(data,labels,classes,just=None,predict=None,autoClose = False)
 ```
 ![afterTrain](images/afterTrain.png 'afterTrain')
+
+#### Draw Confusion Matrix : 
+to Draw Confusion matrix use [confusion_matrix.py](confusion_matrix.py)
+![confusion_matrix](images/confusion_matrix.png)
+![confusion_matrix](images/precision_recall_table.png)
+
