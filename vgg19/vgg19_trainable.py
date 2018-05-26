@@ -28,20 +28,21 @@ class Vgg19:
         :param rgb: rgb image [batch, height, width, 3] values scaled [0, 1]
         :param train_mode: a bool tensor, usually a placeholder: if True, dropout will be turned on
         """
+        self.rib = rgb.get_shape().as_list()[1]
 
         rgb_scaled = rgb * 255.0
 
         # Convert RGB to BGR
         red, green, blue = tf.split(axis=3, num_or_size_splits=3, value=rgb_scaled)
-        assert red.get_shape().as_list()[1:] == [224, 224, 1]
-        assert green.get_shape().as_list()[1:] == [224, 224, 1]
-        assert blue.get_shape().as_list()[1:] == [224, 224, 1]
+        assert red.get_shape().as_list()[1:] == [self.rib, self.rib, 1]
+        assert green.get_shape().as_list()[1:] == [self.rib, self.rib, 1]
+        assert blue.get_shape().as_list()[1:] == [self.rib, self.rib, 1]
         bgr = tf.concat(axis=3, values=[
             blue - VGG_MEAN[0],
             green - VGG_MEAN[1],
             red - VGG_MEAN[2],
         ])
-        assert bgr.get_shape().as_list()[1:] == [224, 224, 3]
+        assert bgr.get_shape().as_list()[1:] == [self.rib, self.rib, 3]
 
         self.conv1_1 = self.conv_layer(bgr, 3, 64, "conv1_1")
         self.conv1_2 = self.conv_layer(self.conv1_1, 64, 64, "conv1_2")
@@ -68,8 +69,12 @@ class Vgg19:
         self.conv5_3 = self.conv_layer(self.conv5_2, 512, 512, "conv5_3")
         self.conv5_4 = self.conv_layer(self.conv5_3, 512, 512, "conv5_4")
         self.pool5 = self.max_pool(self.conv5_4, 'pool5')
+        try:
+            self.fc6 = self.fc_layer(self.pool5, np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
+        except:
+            self.fc6 = self.fc_layer(self.pool5,np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6_")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
 
-        self.fc6 = self.fc_layer(self.pool5, 25088, 4096, "fc6")  # 25088 = ((224 // (2 ** 5)) ** 2) * 512
+
         self.relu6 = tf.nn.relu(self.fc6)
         if train_mode is not None:
             self.relu6 = tf.cond(train_mode, lambda: tf.nn.dropout(self.relu6, self.dropout), lambda: self.relu6)
@@ -82,8 +87,10 @@ class Vgg19:
             self.relu7 = tf.cond(train_mode, lambda: tf.nn.dropout(self.relu7, self.dropout), lambda: self.relu7)
         elif self.trainable:
             self.relu7 = tf.nn.dropout(self.relu7, self.dropout)
-
-        self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
+        try:
+            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
+        except:
+            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8_")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
 

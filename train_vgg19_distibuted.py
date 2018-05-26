@@ -13,6 +13,8 @@ from vgg19 import vgg19_trainable as vgg19
 batch = np.load("DataSets/UCMerced_LandUse_dataTrain.npy")
 labels = np.load("DataSets/UCMerced_LandUse_labelsTrain.npy")
 classes = loadClasses("DataSets/UCMerced_LandUse.txt")
+classes_num = len(classes)
+rib = batch.shape[1] # picture Rib
 
 workers = ['DESKTOP-07HFBQN','FOUZI-PC']
 pss = ['DELL-MINI']
@@ -28,10 +30,14 @@ server = tf.train.Server(cluster, job_name=job, task_index=index)
 #                    cluster=cluster)):
 with tf.device("/job:ps/task:"+str(index)):
 
-    images = tf.placeholder(tf.float32, [None, 224, 224, 3])
+    images = tf.placeholder(tf.float32, [None, rib, rib, 3])
     true_out = tf.placeholder(tf.float32, [None, len(classes)])
     train_mode = tf.placeholder(tf.bool)
-    vgg = vgg19.Vgg19('Weights/VGG19_21C.npy')
+    try:
+        vgg = vgg19.Vgg19('Weights/VGG19_'+str(classes_num)+'C.npy',len(classes))
+    except:
+        vgg = vgg19.Vgg19(None,len(classes))
+
     vgg.build(images,train_mode)
 
     global_step = tf.train.get_or_create_global_step()
@@ -70,9 +76,9 @@ if job == 'worker':
             # with tf.device(tf.train.replica_device_setter(
             #                    worker_device="/job:ps/task:"+str(index),
             #                    cluster=cluster)):
-            append(costs,'Data/cost19_21C_D')
-            append(accs,'Data/acc19_21C_D')
-            vgg.save_npy(sess, 'Weights/VGG19_21C_D.npy')
+            append(costs,'Data/cost19_'+str(classes_num)+'C_D')
+            append(accs,'Data/acc19_'+str(classes_num)+'C_D')
+            vgg.save_npy(sess, 'Weights/VGG19_'+str(classes_num)+'C_D.npy')
         # test classification
         prob = sess.run(vgg.prob, feed_dict={images: batch[:10], train_mode: False})
         picShow(batch[:10],labels[:10], classes, None, prob)
