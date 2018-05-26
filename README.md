@@ -22,21 +22,9 @@ graph represent the values of both of `cost` and `accuracy` after training
 
 ### Instalation :
 
-* install [tensorflow 1.6](https://github.com/SakhriHoussem/How-to-install-tensorflow-gpu)
+* install [tensorflow 1.6](https://github.com/SakhriHoussem/How-to-install-tensorflow-gpu) [matplotlib](https://matplotlib.org/) [opencv](https://pypi.org/project/opencv-python/) [imutils](https://pypi.org/project/imutils)
 ```python
- pip install tensorflow
- ```
-* install  [matplotlib](https://matplotlib.org/)
-```python
-pip install matplotlib
-```
-* install [opencv](https://pypi.org/project/opencv-python/)
-```python
- pip install opencv-python
- ```
- * install [imutils](https://pypi.org/project/imutils)
-```python
- pip install imutils
+ pip install tensorflow matplotlib opencv-python imutils
  ```
 ### Train the Model:
 To Train Model for different DataSets or Different Classification follow the steps : 
