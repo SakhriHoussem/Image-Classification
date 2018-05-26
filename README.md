@@ -26,13 +26,17 @@ graph represent the values of both of `cost` and `accuracy` after training
 ```python
  pip install tensorflow
  ```
-* install python [matplotlib](https://matplotlib.org/)
+* install  [matplotlib](https://matplotlib.org/)
 ```python
 pip install matplotlib
 ```
-* install python [opencv](https://pypi.org/project/opencv-python/)
+* install [opencv](https://pypi.org/project/opencv-python/)
 ```python
  pip install opencv-python
+ ```
+ * install [imutils](https://pypi.org/project/imutils)
+```python
+ pip install imutils
  ```
 ### Train the Model:
 To Train Model for different DataSets or Different Classification follow the steps : 
@@ -42,53 +46,29 @@ To Train Model for different DataSets or Different Classification follow the ste
 2. from [dataSetGenerator](dataSetGenerator.py) use `dataSetToNPY()` to Convert Your DataSet to `file.npy` for Dataset Fast Reading   
  
  ```python
-dataSetToNPY(path,dataSet_name,resize=True,resize_to=224,percentage=80,dataAugmentation= False) 
+dataSetToNPY(path,SaveTo="DataSets",resize=True,resize_to=224,percentage=80,dataAugmentation= False) 
  ```
 3. the Output of `dataSetToNPY()` :      
-`dataSet_name_dataTrain.npy` `dataSet_name_labelsTrain.npy`
-`dataSet_name_dataTest.npy` `dataSet_name_labelsTest.npy` `dataSet_name_classes.npy`
+  - `dataSet_name_dataTrain.npy`     
+  - `dataSet_name_labelsTrain.npy`     
+  - `dataSet_name_dataTest.npy`      
+  - `dataSet_name_labelsTest.npy`      
+  - `dataSet_name_classes.npy`      
    
 4. in [train_vgg19](train_vgg19.py) or [train_vgg16](train_vgg16.py)     
-   
-    1. Get batch of images and Labels for training 
+     
+     - load images and Labels and Classes Name for training 
  ```python
- batch = np.load("dataSet_name_dataTrain.npy")
+batch = np.load("dataSet_name_dataTrain.npy")
 labels = np.load("dataSet_name_labelsTrain.npy")
-```     
+classes = np.load("dataSet_name_classes.npy") 
+ ```
 
-   2. get classes name
- ```python
- classes = np.load("dataSet_name_classes.npy")  # get classes name for file.txt
- ```
- or if you used `saveClasses(path,save_to,mode = 'w')` for generate Classes `dataSet_name_classes.txt`
- 
-```python
-classes = loadClasses("dataSet_name_classes.txt")
-``` 
-   3. set `Weights.npy` and `output_num` if exist 
- ```python
- vgg = vgg19.Vgg19('Weights.npy',output_num)
- ```
- 
-   4. change `epochs` and `batch size` [optional] 
+  - change `epochs` and `batch size` [optional] 
 ```python
 batch_size = 10
 epochs = 30
 ```
-
-   5. choose  path and file Name for each of `cost` and `accuracy`
-```python
-with open('Data/cost.txt', 'a') as f:
-    f.write(str(cur_cost)+'\n')
-with open('Data/acc.txt', 'a') as f:
-    f.write(str(cur_acc)+'\n')
-```
-
-   6. choose  path and file Name for new `Weights`
-```python
-vgg.save_npy(sess, 'Weights/VGG19_21C.npy')
-```
-
 ### For Distributed Tensorflow [optional] : 
 
 1. Download and install [nmap](https://nmap.org/)
