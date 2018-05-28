@@ -4,14 +4,15 @@ Simple tester for the vgg16_trainable
 from os import environ
 import numpy as np
 import tensorflow as tf
-from dataSetGenerator import loadClasses,picShow,append
+from dataSetGenerator import picShow,append
 from vgg16 import vgg16_trainable as vgg16
 
-#path= "C:/Users/{}/Desktop/UCMerced_LandUse/Images/".format(getlogin())
-#batch, labels, classes = dataSetGenerator(path,True,224,80)
-batch = np.load("DataSets/UCMerced_LandUse_dataTrain.npy")
-labels = np.load("DataSets/UCMerced_LandUse_labelsTrain.npy")
-classes = loadClasses("DataSets/UCMerced_LandUse.txt")
+# classes_name = "RSSCN7"
+classes_name = "UCMerced_LandUse_DU"
+classes = np.load("DataSets/{}_classes.npy".format(classes_name))
+batch = np.load("DataSets/{}_dataTrain.npy".format(classes_name))
+labels = np.load("DataSets/{}_labelsTrain.npy".format(classes_name))
+
 classes_num = len(classes)
 rib = batch.shape[1] # picture Rib
 # with tf.device('/device:GPU:0'):
@@ -25,9 +26,9 @@ with tf.device('/cpu:0'):
         train_mode = tf.placeholder(tf.bool)
 
         try:
-            vgg = vgg16.Vgg16('Weights/VGG16_'+str(classes_num)+'C.npy',21)
+            vgg = vgg16.Vgg16('Weights/VGG16_{}C.npy'.format(classes_num),21)
         except:
-            print('Weights/VGG16_'+str(classes_num)+'C.npy Not Exist')
+            print('Weights/VGG16_{}C.npy Not Exist'.format(classes_num))
             vgg = vgg16.Vgg16(None,21)
         vgg.build(images,train_mode)
 
@@ -52,28 +53,27 @@ with tf.device('/cpu:0'):
         costs = []
         accs = []
         for _ in range(epochs):
-                print("*******************  ", _, "  *******************")
                 indice = np.random.permutation(batche_num)
                 counter = 0
                 for i in range(int(batche_num/batch_size)):
                     min_batch = indice[i*batch_size:(i+1)*batch_size]
                     cur_cost, cur_train,cur_acc= sess.run([cost, train,acc], feed_dict={images: batch[min_batch], true_out: labels[min_batch], train_mode: True})
-                    print("Iteration %d loss:\n%s" % (i, cur_cost))
+                    print("Iteration :{} Batch :{} loss :{}".format(_, i, cur_cost))
                     accs.append(cur_acc)
                     costs.append(cur_cost)
                     counter += 1
                     if counter % 100 == 0:
                         #  save graph data
-                        append(costs,'Data/cost16_'+str(classes_num)+'C.txt')
-                        append(accs,'Data/acc16_'+str(classes_num)+'C.txt')
+                        append(costs,'Data/cost16_{}C.txt'.format(classes_num))
+                        append(accs,'Data/acc16_'+str(classes_num)+'C.txt'.format(classes_num))
                         # save Weights
-                        vgg.save_npy(sess, 'Weights/VGG16_'+str(classes_num)+'C.npy')
+                        vgg.save_npy(sess, 'Weights/VGG16_{}C.npy'.format(classes_num))
 
                 #  save graph data
-                append(costs,'Data/cost16_'+str(classes_num)+'C.txt')
-                append(accs,'Data/acc16_'+str(classes_num)+'C.txt')
+                append(costs,'Data/cost16_{}C.txt'.format(classes_num))
+                append(accs,'Data/acc16_{}C.txt'.format(classes_num))
                 #  save Weights
-                vgg.save_npy(sess, 'Weights/VGG16_'+str(classes_num)+'C.npy')
+                vgg.save_npy(sess, 'Weights/VGG16_{}C.npy'.format(classes_num))
         # test classification again, should have a higher probability about tiger
         prob = sess.run(vgg.prob, feed_dict={images: batch[:10], train_mode: False})
         picShow(batch[:10],labels[:10], classes,None,prob)
