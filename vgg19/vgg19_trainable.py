@@ -72,8 +72,9 @@ class Vgg19:
         try:
             self.fc6 = self.fc_layer(self.pool5, np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
         except:
-            self.fc6 = self.fc_layer(self.pool5,np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6_")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
-
+            print("layer fc6 reshaped")
+            del self.data_dict["fc6"]
+            self.fc6 = self.fc_layer(self.pool5,np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
 
         self.relu6 = tf.nn.relu(self.fc6)
         if train_mode is not None:
@@ -90,7 +91,9 @@ class Vgg19:
         try:
             self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
         except:
-            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8_")
+            print("layer fc8 reshaped")
+            del self.data_dict["fc8"]
+            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
 
@@ -154,7 +157,6 @@ class Vgg19:
 
         # print var_name, var.get_shape().as_list()
         assert var.get_shape() == initial_value.get_shape()
-
         return var
 
     def save_npy(self, sess, npy_path="./vgg19-save.npy"):

@@ -68,7 +68,10 @@ class Vgg16:
         try:
             self.fc6 = self.fc_layer(self.pool5, np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6")  # 25088 = ((224  // (2 ** 5)) ** 2) * 512
         except:
-            self.fc6 = self.fc_layer(self.pool5, np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6_")  # 25088 = ((224  // (2 ** 5)) ** 2) * 512
+            print("layer fc6 reshaped")
+            del self.data_dict["fc6"]
+            self.fc6 = self.fc_layer(self.pool5,np.prod(self.pool5.get_shape().as_list()[1:]), 4096, "fc6")  # 25088 = ((400 // (2 ** 5)) ** 2) * 512
+
         self.relu6 = tf.nn.relu(self.fc6)
         if train_mode is not None:
             self.relu6 = tf.cond(train_mode, lambda: tf.nn.dropout(self.relu6, self.dropout), lambda: self.relu6)
@@ -84,7 +87,9 @@ class Vgg16:
         try:
             self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
         except:
-            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8_")
+            print("layer fc8 reshaped")
+            del self.data_dict["fc8"]
+            self.fc8 = self.fc_layer(self.relu7, 4096, self.output, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
 

@@ -7,8 +7,10 @@ import tensorflow as tf
 from dataSetGenerator import picShow,append
 from vgg16 import vgg16_trainable as vgg16
 
-# classes_name = "RSSCN7"
-classes_name = "UCMerced_LandUse_DU"
+classes_name = "RSSCN7"
+# classes_name = "UCMerced_LandUse_DU"
+# classes_name = "SIRI-WHU"
+
 classes = np.load("DataSets/{}_classes.npy".format(classes_name))
 batch = np.load("DataSets/{}_dataTrain.npy".format(classes_name))
 labels = np.load("DataSets/{}_labelsTrain.npy".format(classes_name))
@@ -26,10 +28,10 @@ with tf.device('/cpu:0'):
         train_mode = tf.placeholder(tf.bool)
 
         try:
-            vgg = vgg16.Vgg16('Weights/VGG16_{}C.npy'.format(classes_num),21)
+            vgg = vgg16.Vgg16('Weights/VGG16_{}.npy'.format(classes_name),classes_num)
         except:
-            print('Weights/VGG16_{}C.npy Not Exist'.format(classes_num))
-            vgg = vgg16.Vgg16(None,21)
+            print('Weights/VGG16_{}.npy Not Exist'.format(classes_name))
+            vgg = vgg16.Vgg16(None,classes_num)
         vgg.build(images,train_mode)
 
         # print number of variables used: 143667240 variables, i.e. ideal size = 548MB
@@ -64,16 +66,16 @@ with tf.device('/cpu:0'):
                     counter += 1
                     if counter % 100 == 0:
                         #  save graph data
-                        append(costs,'Data/cost16_{}C.txt'.format(classes_num))
-                        append(accs,'Data/acc16_'+str(classes_num)+'C.txt'.format(classes_num))
+                        append(costs,'Data/COST16_{}.txt'.format(classes_name))
+                        append(accs,'Data/ACC16_{}.txt'.format(classes_name))
                         # save Weights
-                        vgg.save_npy(sess, 'Weights/VGG16_{}C.npy'.format(classes_num))
+                        vgg.save_npy(sess, 'Weights/VGG16_{}.npy'.format(classes_name))
 
                 #  save graph data
-                append(costs,'Data/cost16_{}C.txt'.format(classes_num))
-                append(accs,'Data/acc16_{}C.txt'.format(classes_num))
+                append(costs,'Data/COST16_{}.txt'.format(classes_name))
+                append(accs,'Data/ACC16_{}.txt'.format(classes_name))
                 #  save Weights
-                vgg.save_npy(sess, 'Weights/VGG16_{}C.npy'.format(classes_num))
+                vgg.save_npy(sess, 'Weights/VGG16_{}.npy'.format(classes_name))
         # test classification again, should have a higher probability about tiger
         prob = sess.run(vgg.prob, feed_dict={images: batch[:10], train_mode: False})
         picShow(batch[:10],labels[:10], classes,None,prob)
