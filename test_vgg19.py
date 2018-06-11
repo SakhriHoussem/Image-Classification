@@ -11,8 +11,8 @@ classes_name = "RSSCN7"
 # classes_name = "UCMerced_LandUse"
 
 classes = load("DataSets/{0}/{0}_classes.npy".format(classes_name))
-batch = load("DataSets/{0}/{0}_dataTrain.npy".format(classes_name)) # read one picture
-label =load("DataSets/{0}/{0}_labelsTrain.npy".format(classes_name))
+batch = load("DataSets/{0}/{0}_dataTest.npy".format(classes_name)) # read one picture
+label =load("DataSets/{0}/{0}_labelsTest.npy".format(classes_name))
 rib = batch.shape[1]
 
 batch_size = 12
