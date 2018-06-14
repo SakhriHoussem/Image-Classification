@@ -5,30 +5,31 @@
 ###  DataSets :
 we used each of this DataSets for training
 
- - [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
+ - [UC Merced Land Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
  - [SIRI-WHU](http://www.lmars.whu.edu.cn/prof_web/zhongyanfei/e-code.html)
  - [RSSCN7](http://www.lmars.whu.edu.cn/xia/AID-project.html)
  
-## Results :
-### After Training : 
-Resultat of the Model After Training
+## After Training :
+Resultat of UC Merced Land DataSet After Training
 
 Testing the classification of one batch of Pictures from [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) 
 
-![afterTrain](images/test19_UCMerced_LandUse.png ' classification of batch of pictre after Training')
+![test UC Merced Land](images/test19_UCMerced_LandUse.png ' classification of batch of pictre after Training')
 
 #### `Cost` and `Accuracy` : 
 graph represent the values of both of `cost` and `accuracy` each epoch
 ![graph](images/acc19_cost19_UCMerced_LandUse.png 'graph of Accuracy and cost')
-- - - -
+
 ## How To use :
+you can use this model to classify any DataSet just follow the 4 next instruction
 
 ### Instalation :
 
-* install [tensorflow 1.6](https://github.com/SakhriHoussem/How-to-install-tensorflow-gpu) [matplotlib](https://matplotlib.org/) [opencv](https://pypi.org/project/opencv-python/) [imutils](https://pypi.org/project/imutils)
+* install [tensorflow 1.6](tensorflow.org) [matplotlib](https://matplotlib.org/) [opencv](https://pypi.org/project/opencv-python/) [imutils](https://pypi.org/project/imutils)
 ```python
  pip install tensorflow matplotlib opencv-python imutils
  ```
+* to install [tensorflow gpu](https://github.com/SakhriHoussem/How-to-install-tensorflow-gpu) [matplotlib](https://matplotlib.org/) [opencv](https://pypi.org/project/opencv-python/) 
 ### Train the Model:
 To Train Model for different DataSets or Different Classification follow the steps : 
 
