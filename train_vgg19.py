@@ -3,13 +3,28 @@ Simple tester for the vgg19_trainable
 """
 import numpy as np
 import tensorflow as tf
-from dataSetGenerator import append
-from dataSetGenerator import picShow
+from dataSetGenerator import append,picShow
 from vgg19 import vgg19_trainable as vgg19
+import argparse
 
+parser = argparse.ArgumentParser(prog="Train vgg19",description="Simple tester for the vgg19_trainable")
+parser.add_argument('--dataset', metavar='dataset', type=str,required=True,
+                    help='DataSet Name')
+parser.add_argument('--batch', metavar='batch', type=int, default=10, help='batch size ')
+parser.add_argument('--epochs', metavar='epochs', type=int, default=30,
+                    help='number of epoch to train the network')
+args = parser.parse_args()
+
+
+classes_name = args.dataset
+batch_size = args.batch
+epochs = args.epochs
+
+# batch_size = 10
+# epochs = 30
 # classes_name = "SIRI-WHU"
 # classes_name = "UCMerced_LandUse"
-classes_name = "RSSCN7"
+# classes_name = "RSSCN7"
 
 classes = np.load("DataSets/{0}/{0}_classes.npy".format(classes_name))
 batch = np.load("DataSets/{0}/{0}_dataTrain.npy".format(classes_name))
@@ -51,8 +66,7 @@ with tf.device('/device:GPU:0'):
         correct_prediction = tf.equal(tf.argmax(prob), tf.argmax(true_out))
         acc = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-        batch_size = 10
-        epochs = 30
+
         batche_num = len(batch)
         accs = []
         costs = []

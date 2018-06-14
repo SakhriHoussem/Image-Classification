@@ -28,13 +28,13 @@ server = tf.train.Server(cluster, job_name=job, task_index=index)
 # with tf.device(tf.train.replica_device_setter(
 #                    worker_device="/job:ps/task:"+str(index),
 #                    cluster=cluster)):
-with tf.device("/job:ps/task:"+str(index)):
+with tf.device("/job:ps/task:{}".format(index)):
 
     images = tf.placeholder(tf.float32, [None, rib, rib, 3])
     true_out = tf.placeholder(tf.float32, [None, len(classes)])
     train_mode = tf.placeholder(tf.bool)
     try:
-        vgg = vgg19.Vgg19('Weights/VGG19_'+str(classes_num)+'C.npy',len(classes))
+        vgg = vgg19.Vgg19('Weights/VGG19_{}C.npy'.format(classes_num),len(classes))
     except:
         vgg = vgg19.Vgg19(None,len(classes))
 
@@ -47,7 +47,7 @@ if job == 'worker':
     # with tf.device(tf.train.replica_device_setter(
     #                    worker_device="/job:worker/task:"+str(index),
     #                    cluster=cluster)):
-    with tf.device("/job:worker/task:"+str(index)):
+    with tf.device("/job:worker/task:{}".format(index)):
 
         cost = tf.reduce_sum((vgg.prob - true_out) ** 2)
         train = tf.train.GradientDescentOptimizer(0.0001).minimize(cost)
@@ -76,9 +76,9 @@ if job == 'worker':
             # with tf.device(tf.train.replica_device_setter(
             #                    worker_device="/job:ps/task:"+str(index),
             #                    cluster=cluster)):
-            append(costs,'Data/cost19_'+str(classes_num)+'C_D')
-            append(accs,'Data/acc19_'+str(classes_num)+'C_D')
-            vgg.save_npy(sess, 'Weights/VGG19_'+str(classes_num)+'C_D.npy')
+            append(costs,'Data/cost19_{}C_D'.format(classes_num))
+            append(accs,'Data/acc19_{}C_D'.format(classes_num))
+            vgg.save_npy(sess, 'Weights/VGG19_{}C_D.npy'.format(classes_num))
         # test classification
         prob = sess.run(vgg.prob, feed_dict={images: batch[:10], train_mode: False})
         picShow(batch[:10],labels[:10], classes, None, prob)

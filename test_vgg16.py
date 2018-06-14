@@ -6,10 +6,23 @@ import vgg16.vgg16 as vgg16
 from dataSetGenerator import picShow
 from numpy import load
 from os import environ
+import argparse
 
-classes_name = "RSSCN7"
-classes_name = "SIRI-WHU"
-classes_name = "UCMerced_LandUse"
+parser = argparse.ArgumentParser(prog="Test vgg16",description="Simple tester for the vgg16_trainable")
+parser.add_argument('--dataset', metavar='dataset', type=str,required=True,
+                    help='DataSet Name')
+parser.add_argument('--batch', metavar='batch', type=int, default=12, help='batch size ')
+
+args = parser.parse_args()
+
+
+classes_name = args.dataset
+batch_size = args.batch
+
+# batch_size = 12
+# classes_name = "RSSCN7"
+# classes_name = "SIRI-WHU"
+# classes_name = "UCMerced_LandUse"
 
 classes = load("DataSets/{0}/{0}_classes.npy".format(classes_name))
 batch = load("DataSets/{0}/{0}_dataTest.npy".format(classes_name)) # read one picture
@@ -26,5 +39,5 @@ with tf.device('/cpu:0'):
         with tf.name_scope("content_vgg"):
             vgg.build(images)
 
-        prob = sess.run(vgg.prob, {images: batch})
+        prob = sess.run(vgg.prob, {images: batch[:batch_size]})
         picShow(batch, label, classes, None, prob, Save_as="test19_{}.png".format(classes_name))
