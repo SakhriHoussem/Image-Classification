@@ -4,7 +4,7 @@ Simple tester for the vgg16
 import tensorflow as tf
 import vgg16.vgg16 as vgg16
 from dataSetGenerator import picShow
-from numpy import load
+from numpy import load, random
 from os import environ
 import argparse
 
@@ -29,6 +29,7 @@ batch = load("DataSets/{0}/{0}_dataTest.npy".format(classes_name)) # read one pi
 label =load("DataSets/{0}/{0}_labelsTest.npy".format(classes_name))
 
 rib = batch.shape[1]
+data = random.randint(batch.shape[0], size=batch_size)
 
 # with tf.Session(config=tf.ConfigProto(gpu_options=(tf.GPUOptions(per_process_gpu_memory_fraction=0.7)))) as sess:
 with tf.device('/cpu:0'):
@@ -39,5 +40,5 @@ with tf.device('/cpu:0'):
         with tf.name_scope("content_vgg"):
             vgg.build(images)
 
-        prob = sess.run(vgg.prob, {images: batch[:batch_size]})
-        picShow(batch, label, classes, None, prob, Save_as="test19_{}.png".format(classes_name))
+        prob = sess.run(vgg.prob, {images: batch[data]})
+        picShow(batch[data], label[data], classes, None, prob, Save_as="test19_{}.png".format(classes_name))
