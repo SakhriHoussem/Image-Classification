@@ -1,16 +1,16 @@
-# Classification of Satellite images
+# Image Classification
 
-## Pre-trained VGG-Net Model For Classification of Satellite images :rocket: using Tensorflow
+## Pre-trained VGG-Net Model for image classification using  tensorflow
 
 ###  DataSets :
-we used each of this DataSets for training
+we used each of this DataSets for Image Classification training
 
  - [UC Merced Land Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
  - [SIRI-WHU](http://www.lmars.whu.edu.cn/prof_web/zhongyanfei/e-code.html)
  - [RSSCN7](http://www.lmars.whu.edu.cn/xia/AID-project.html)
  
 ## After Training :
-Resultat of UC Merced Land DataSet After Training
+Resultat of UC Merced Land DataSet After Image Classification Training
 
 Testing the classification of one batch of Pictures from [UC Merced Land Use Dataset](http://weegee.vision.ucmerced.edu/datasets/landuse.html) 
 
